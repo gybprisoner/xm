@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+   <h3>视频播放</h3>
+    <video controls src="res/x.mp4" loop poster="res/mm.png" preload="metadata" id="v3"></video>
+    <script>
+        var v3=document.getElementById("v3");
+        //控制音量
+        v3.volume=0.5;
+        //控制播放速度
+        v3.playbackRate=1;
+    </script>
+</body>
+</html>
