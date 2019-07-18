@@ -18,7 +18,7 @@ var pool = mysql.createPool({
   user:"root",
   password:"",
   port:3306,
-  database:"xz",
+  database:"xm",
   connectionLimit:15
 })
 //3:创建express对象 nodejs app.js
@@ -107,29 +107,7 @@ server.get("/login",(req,res)=>{
 
 
 
-//功能二:商品列表 66~85
-server.get("/product",(req,res)=>{
-  //1:参数 pno pageSize
-  var pno = req.query.pno;
-  var ps = req.query.pageSize;
-  //2:默认值 
-  if(!pno){pno=1}
-  if(!ps){ps=4}
-  //2:sql
-  var sql = " SELECT lid,title,price";
-  sql+=" FROM xz_laptop";
-  sql+=" LIMIT ?,?";
-  var offset = (pno-1)*ps;
-  ps = parseInt(ps);
-  //3:json
-  pool.query(sql,[offset,ps],(err,result)=>{
-    if(err)throw err;
-    res.send({code:1,msg:"查询成功",data:result});
-  })
- });
- 
- 
- //功能三:查询指定用户购物车信息88~114
+
  //app.js
  server.get("/aaa",(req,res)=>{
    //参数
@@ -145,37 +123,3 @@ server.get("/product",(req,res)=>{
  })
  
 
-//功能四:-删除指定购物车中一个商品
-server.get("/del",(req,res)=>{
-  //参数:id
-  var id = req.query.id;
-  //sql:
-  var sql = "DELETE FROM xz_cart WHERE id = ?";
-  //json
-  pool.query(sql,[id],(err,result)=>{
-     if(err)throw err;
-     console.log(result);
-     res.send({code:1,msg:"删除成功"})
-  })
-})
-
-//affectedRows: 1
-//功能五:清空购物车 124
-server.get("/delAll",(req,res)=>{
-  //参数: 6,7,9
-  var ids = req.query.ids;
-  //sql:
-  var sql = `DELETE FROM xz_cart WHERE id IN(${ids})`;
-  //rs:
-  pool.query(sql,(err,result)=>{
-    if(err)throw err;
-    //insert update delete
-    //result不是数组是一个对象
-    //affectedRows  影响行数
-    if(result.affectedRows>0){
-      res.send({code:1,msg:"删除成功"})
-    }else{
-      res.send({code:-1,msg:"删除失败"})
-    }
-  });
-});
